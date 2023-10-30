@@ -25,7 +25,9 @@ const ParentComponent: React.FC<object> = () => {
           <Search onValueChange={handleValueChange} />
         </div>
         <div className="cardComp">
-          <Card sharedValue={localStorage.getItem('searchResult') ?? ''} />
+          <Card
+            sharedValue={typeof parentState === 'string' ? parentState : ''}
+          />
         </div>
         <ErrorButton2 />
       </ErrorBoundary>
