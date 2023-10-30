@@ -1,3 +1,3 @@
 # Rolling Scopes School
 
-Current project for week 1 is Module1
+Week 2 : React Routing

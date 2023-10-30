@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Search from './Components/SearchBar/Search2';
 import Card from './Components/Lower/Card';
 import ErrorButton2 from './Components/Lower/ErrorButton2';
@@ -9,28 +9,28 @@ interface ParentState {
   sharedValue: string | null;
 }
 
-class ParentComponent extends Component<object, ParentState> {
-  state: ParentState = { sharedValue: '' };
+const ParentComponent: React.FC<object> = () => {
+  const [parentState, setParentState] = useState<ParentState>({
+    sharedValue: '',
+  });
 
-  handleValueChange = (newValue: string) => {
-    this.setState({ sharedValue: newValue });
+  const handleValueChange = (newValue: string) => {
+    setParentState({ sharedValue: newValue });
   };
 
-  render() {
-    return (
-      <div className="main">
-        <ErrorBoundary>
-          <div className="searchComp">
-            <Search onValueChange={this.handleValueChange} />
-          </div>
-          <div className="cardComp">
-            <Card sharedValue={localStorage.getItem('searchResult') ?? ''} />
-          </div>
-          <ErrorButton2 />
-        </ErrorBoundary>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="main">
+      <ErrorBoundary>
+        <div className="searchComp">
+          <Search onValueChange={handleValueChange} />
+        </div>
+        <div className="cardComp">
+          <Card sharedValue={localStorage.getItem('searchResult') ?? ''} />
+        </div>
+        <ErrorButton2 />
+      </ErrorBoundary>
+    </div>
+  );
+};
 
 export default ParentComponent;
