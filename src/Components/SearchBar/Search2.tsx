@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-interface SearchProps {
-  onValueChange: (newValue: string) => void;
+interface ChildComponentProps {
+  onValueSet: (newValue: string) => void;
+  pageIncDec: (operation: 'increase' | 'decrease') => void;
+  pageReset: () => void;
 }
-interface SearchState {
-  tempvalue: string;
-}
-class Search extends Component<SearchProps, SearchState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      tempvalue: localStorage.getItem('searchResult') || '',
-    };
-  }
-  handleChange = (newValue: string) => {
-    this.setState({ tempvalue: newValue });
+
+const Search: React.FC<ChildComponentProps> = ({
+  onValueSet,
+  pageIncDec,
+  pageReset,
+}) => {
+  const [tempvalue, setTempValue] = React.useState<string>(
+    localStorage.getItem('searchResult') || ''
+  );
+
+  const handleChange = (newValue: string) => {
+    setTempValue(newValue);
   };
 
-  submiting = () => {
-    this.props.onValueChange(this.state.tempvalue.toLowerCase().trimEnd());
-    localStorage.setItem(
-      'searchResult',
-      this.state.tempvalue.toLowerCase().trimEnd()
-    );
+  const handleSubmit = () => {
+    pageReset();
+    onValueSet(tempvalue.toLowerCase().trimEnd());
+    localStorage.setItem('searchResult', tempvalue.toLowerCase().trimEnd());
   };
 
-  render() {
-    return (
-      <>
-        <input
-          type="text"
-          value={this.state.tempvalue}
-          onChange={(e) => this.handleChange(e.target.value)}
-        />
+  return (
+    <>
+      <input
+        type="text"
+        value={tempvalue}
+        onChange={(e) => handleChange(e.target.value)}
+      />
 
-        <button onClick={this.submiting}>Search</button>
-      </>
-    );
-  }
-}
+      <button onClick={handleSubmit}>Search</button>
+      <button onClick={() => pageIncDec('increase')}>Next Page</button>
+      <button onClick={() => pageIncDec('decrease')}>Previous Page</button>
+      <Outlet />
+    </>
+  );
+};
 
 export default Search;

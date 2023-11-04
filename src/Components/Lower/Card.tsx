@@ -1,123 +1,48 @@
-import React, { Component } from 'react';
-import fetchPokemon from '../Fetch/FetchPokemon';
+// import React from 'react';
+// import fetchPokemon from '../Fetch/FetchPokemon';
+// import { Character } from '../../resources/characterInterface';
+// import CharacterCard from './CharacterCard';
 
-interface SearchProps {
-  sharedValue: string;
-}
+// interface SearchProps {
+//   searchValue: string;
+// }
 
-interface DataObject {
-  id: number;
-  name: string;
-  base_experience: number;
-  height: number;
-  order: number;
-  weight: number;
-  stats: [
-    {
-      base_stat: number;
-      effort: number;
-      stat: {
-        name: string;
-        url: string;
-      };
-    },
-  ];
-}
+// const Card: React.FC<SearchProps> = ({ searchValue }) => {
+//   const [characterObject, setcharacterObject] = React.useState<
+//     Character[] | null
+//   >(null);
 
-interface DataObjectEmpty {
-  count: number;
-  next: string;
-  previous: null;
-  results: [
-    {
-      name: string;
-    },
-  ];
-}
+//   const [page, setPage] = React.useState<number>(1);
 
-interface CardState {
-  dataObject: DataObject | DataObjectEmpty | null;
-}
+//   React.useEffect(() => {
+//     fetchData(searchValue);
+//   }, [searchValue, page]);
 
-function isDataObject(obj: DataObject | DataObjectEmpty): obj is DataObject {
-  return 'id' in obj;
-}
+//   const fetchData = async (searchValue: string) => {
+//     try {
+//       const data = await fetchPokemon(searchValue);
+//       console.log(data);
+//       setcharacterObject(data.results);
 
-class Card extends Component<SearchProps, CardState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      dataObject: null,
-    };
-  }
+//       //set next page to false if data.pages<=page
+//     } catch (error) {
+//       console.error('Error fetching data:', error);
+//     }
+//   };
 
-  componentDidMount() {
-    this.fetchData();
-  }
+//   if (characterObject === null) {
+//     return <p>Waiting for correct search input...</p>;
+//   } else {
+//     return (
+//       <div>
+//         <section className="cards">
+//           {characterObject.map((item) => (
+//             <CharacterCard key={item.id} character={item} />
+//           ))}
+//         </section>
+//       </div>
+//     );
+//   }
+// };
 
-  componentDidUpdate(prevProps: SearchProps) {
-    if (prevProps.sharedValue !== this.props.sharedValue) {
-      this.fetchData();
-    }
-  }
-
-  async fetchData() {
-    try {
-      const data = await fetchPokemon(this.props.sharedValue);
-      console.log(data);
-      this.setState({ dataObject: data });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
-
-  render() {
-    const { dataObject } = this.state;
-
-    if (this.props.sharedValue === '') {
-      if (dataObject !== null) {
-        if (!isDataObject(dataObject)) {
-          return (
-            <>
-              <h1>Search for a pokemon!</h1>
-              <h2>Pokemon examples</h2>
-              <ul>
-                {dataObject.results.map((p) => (
-                  <li key={p.name}>{p.name} </li>
-                ))}
-              </ul>
-            </>
-          );
-        }
-      }
-    }
-
-    if (dataObject === null) {
-      return <p>Waiting for correct search input...</p>;
-    }
-
-    if (isDataObject(dataObject)) {
-      return (
-        <div>
-          <h3>Name: {dataObject.name}</h3>
-          <p>ID: {dataObject.id}</p>
-          <p>Base Experience: {dataObject.base_experience}</p>
-          <p>Height: {dataObject.height}</p>
-          <p>Weight: {dataObject.weight}</p>
-          <h3>Stats</h3>
-          <div>
-            {dataObject.stats.map((stat, index) => {
-              return (
-                <p key={index}>
-                  {stat.stat.name} : {stat.base_stat}
-                </p>
-              );
-            })}
-          </div>
-        </div>
-      );
-    }
-  }
-}
-
-export default Card;
+// export default Card;

@@ -27,3 +27,9 @@
   padding: 0 20px;
   width: 800px;
 }
+
+.cards {
+  display: 'grid';
+  gridtemplatecolumns: 'repeat(auto-fit, minmax(200px, 1fr))';
+  gap: '24px';
+}
