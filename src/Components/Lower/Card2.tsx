@@ -1,7 +1,7 @@
 import React from 'react';
 import { Character } from '../../resources/characterInterface';
 import CharacterCard from './CharacterCard';
-import { useLoaderData, useNavigate, Link } from 'react-router-dom';
+import { useLoaderData, useNavigate, Link, Outlet } from 'react-router-dom';
 
 interface SearchProps {
   searchValue: string;
@@ -24,33 +24,9 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page }) => {
     }
   }, [searchValue, page, navigate]);
 
-  // React.useEffect(() => {
-  //   if (searchValue == '') {
-  //     if (page === 1) {
-  //       navigate(location.pathname); // Keep the route as is
-  //     } else {
-  //       navigate(`/${page}`);
-  //     }
-  //   } else {
-  //     navigate(`/${searchValue}/${page}`);
-  //   }
-  // }, [searchValue, page]);
-
   React.useEffect(() => {
     setcharacterObject(data.results);
   }, [data]);
-
-  // const fetchData = async (searchValue: string) => {
-  //   try {
-  //     const data = await fetchPokemon(searchValue);
-  //     console.log(data);
-  //     setcharacterObject(data.results);
-
-  //     //set next page to false if data.pages<=page
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
 
   if (characterObject === null) {
     return <p>Waiting for correct search input...</p>;
@@ -58,13 +34,14 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page }) => {
     return (
       <div>
         <p>{searchValue}</p>
-        <Link to="./2">hello</Link>
         <section className="cards">
           {characterObject.map((item) => (
-            <CharacterCard key={item.id} character={item} />
+            <Link key={item.id} to={`details/${item.id}`}>
+              <CharacterCard key={item.id} character={item} />
+            </Link>
           ))}
         </section>
-        {/* <Outlet/> Outlet should go here to open new window  */}
+        <Outlet />
       </div>
     );
   }

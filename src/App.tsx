@@ -2,7 +2,9 @@ import './App.css';
 import React, { useState } from 'react';
 import Search from './Components/SearchBar/Search2';
 import fetchPokemon2 from './Components/Fetch/FetchPokemon2';
+import fetchById from './Components/Fetch/FetchById';
 import Card2 from './Components/Lower/Card2';
+import ImageView from './Components/Lower/ImageView';
 
 // import RootLayout from './layouts/RootLayout';
 // import fetchPokemon from './Components//Fetch/FetchPokemon';
@@ -19,11 +21,11 @@ import {
 //     </Route>
 
 const ParentComponent: React.FC<object> = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('search');
   const [page, setPage] = React.useState<number>(1);
 
   const onValueSet = (newValue: string) => {
-    setSearchValue(newValue);
+    setSearchValue(newValue.trim() === '' ? 'search' : newValue);
   };
 
   const pageIncDec = (operation: 'increase' | 'decrease') => {
@@ -58,19 +60,24 @@ const ParentComponent: React.FC<object> = () => {
         }
       >
         <Route
-          path="/:page?"
+          path="/:search?/:page?"
           element={<Card2 searchValue={searchValue} page={page} />}
           loader={({ params }) => {
-            return fetchPokemon2('', params.page);
+            if (params.search == 'search') {
+              return fetchPokemon2('', params.page);
+            } else {
+              return fetchPokemon2(params.search, params.page);
+            }
           }}
-        />
-        <Route
-          path="/:search/:page?"
-          element={<Card2 searchValue={searchValue} page={page} />}
-          loader={({ params }) => {
-            return fetchPokemon2(params.search, params.page);
-          }}
-        />
+        >
+          <Route
+            path="details/:id"
+            element={<ImageView />}
+            loader={({ params }) => {
+              return fetchById(params.id);
+            }}
+          ></Route>
+        </Route>
       </Route>
     )
   );
