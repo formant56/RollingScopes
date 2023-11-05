@@ -1,9 +1,10 @@
 import React from 'react';
-import { useNavigate, useLoaderData } from 'react-router-dom';
+import { useNavigate, useNavigation, useLoaderData } from 'react-router-dom';
 import { Character } from '../../resources/characterInterface';
 
 export default function ImageView() {
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const data = useLoaderData() as Character;
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const modalOverlayRef = React.useRef<HTMLDivElement | null>(null);
@@ -12,7 +13,6 @@ export default function ImageView() {
     navigate('..');
   }, [navigate]);
 
-  // Add an event listener to the modal overlay to handle clicks outside the modal
   React.useEffect(() => {
     function handleOverlayClick(event: MouseEvent) {
       if (
@@ -20,7 +20,6 @@ export default function ImageView() {
         event.target instanceof Node &&
         !modalOverlayRef.current.contains(event.target as Node)
       ) {
-        // Click occurred outside the modal, so trigger the onDismiss function
         onDismiss();
       }
     }
@@ -32,30 +31,30 @@ export default function ImageView() {
     };
   }, [onDismiss]);
 
-  // CSS for the modal overlay
   const modalOverlayStyle = {
-    // position: 'fixed',
     top: 0,
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: '#13538f',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 999,
   };
 
-  // CSS for the modal content
   const modalContentStyle = {
     backgroundColor: '#fff',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
-    maxWidth: '80%',
-    maxHeight: '80%',
+    maxWidth: '90%',
+    maxHeight: '90%',
     overflow: 'auto',
   };
+  if (navigation.state === 'loading') {
+    return <h1>Loading!</h1>;
+  }
 
   return (
     <div style={modalOverlayStyle} ref={modalOverlayRef}>

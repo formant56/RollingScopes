@@ -33,7 +33,7 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page, pageIncDec }) => {
   } else {
     return (
       <div className="split">
-        <div>
+        <div className="leftView">
           <div className="navbutton">
             <>
               {data.previous && (
@@ -51,7 +51,6 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page, pageIncDec }) => {
             </>
           </div>
 
-          <p>{searchValue}</p>
           {searchValue == 'search' ? (
             <section className="cards">
               {characterObject.map((item) => (
@@ -70,7 +69,9 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page, pageIncDec }) => {
             </div>
           )}
         </div>
-        <Outlet />
+        <div className="rightView">
+          <Outlet />
+        </div>
       </div>
     );
   }

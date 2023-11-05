@@ -6,19 +6,12 @@ import fetchPokemons from './Components/Fetch/FetchPokemon';
 import Card2 from './Components/Lower/Card2';
 import ImageView from './Components/Lower/ImageView';
 
-// import RootLayout from './layouts/RootLayout';
-// import fetchPokemon from './Components//Fetch/FetchPokemon';
-
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from 'react-router-dom';
-
-//       <Route index element={<Home />} />
-//       <Route path="about" element={<About />} />
-//     </Route>
 
 const ParentComponent: React.FC<object> = () => {
   const [searchValue, setSearchValue] = useState<string>('search');
@@ -98,18 +91,3 @@ const ParentComponent: React.FC<object> = () => {
   return <RouterProvider router={router} />;
 };
 export default ParentComponent;
-
-//   return (
-//     <div className="main">
-//       <div className="searchComp">
-//         <Search onValueSet={onValueSet} />
-//       </div>
-//       <div className="cardComp">
-//         <Card
-//           searchValue={typeof searchValue === 'string' ? searchValue : ''}
-//         />
-//       </div>
-//       <ErrorButton2 />
-//     </div>
-//   );
-// };
