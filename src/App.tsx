@@ -60,7 +60,6 @@ const ParentComponent: React.FC<object> = () => {
         element={
           <Search
             onValueSet={onValueSet}
-            pageIncDec={pageIncDec}
             pageReset={pageReset}
             onLimitSet={onLimitSet}
             limit={limit}
@@ -69,12 +68,18 @@ const ParentComponent: React.FC<object> = () => {
       >
         <Route
           path="/:search?/:page?"
-          element={<Card2 searchValue={searchValue} page={page} />}
+          element={
+            <Card2
+              searchValue={searchValue}
+              page={page}
+              pageIncDec={pageIncDec}
+            />
+          }
           loader={({ params }) => {
             if (params.search == 'search') {
               return fetchPokemons(params.page, limit);
             } else {
-              return fetchPokemons(params.search, params.page, limit);
+              return fetchByName(params.search);
             }
           }}
         >

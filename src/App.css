@@ -38,3 +38,8 @@
   display: flex;
   flex-direction: row;
 }
+
+.navbutton {
+  display: flex;
+  flex-direction: row;
+}

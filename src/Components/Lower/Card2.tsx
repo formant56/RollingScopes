@@ -6,9 +6,10 @@ import { useLoaderData, useNavigate, NavLink, Outlet } from 'react-router-dom';
 interface SearchProps {
   searchValue: string;
   page: number;
+  pageIncDec: (operation: 'increase' | 'decrease') => void;
 }
 
-const Card2: React.FC<SearchProps> = ({ searchValue, page }) => {
+const Card2: React.FC<SearchProps> = ({ searchValue, page, pageIncDec }) => {
   const data = useLoaderData();
   const [characterObject, setcharacterObject] = React.useState<
     Character[] | null
@@ -17,11 +18,10 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page }) => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (searchValue == '') {
-      navigate(`/${page}`);
-    } else {
-      navigate(`/${searchValue}/${page}`);
-    }
+    // if (searchValue == '') {
+    //   navigate(`/${page}`);
+    // } else {
+    navigate(`/${searchValue}/${page}`);
   }, [searchValue, page, navigate]);
 
   React.useEffect(() => {
@@ -34,14 +34,41 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page }) => {
     return (
       <div className="split">
         <div>
+          <div className="navbutton">
+            <>
+              {data.previous && (
+                <button onClick={() => pageIncDec('decrease')}>
+                  Prev Page
+                </button>
+              )}
+            </>
+            <>
+              {data.next && (
+                <button onClick={() => pageIncDec('increase')}>
+                  Next Page
+                </button>
+              )}
+            </>
+          </div>
+
           <p>{searchValue}</p>
-          <section className="cards">
-            {characterObject.map((item) => (
-              <NavLink key={item.name} to={`details/${item.name}`}>
-                <CharacterCard key={item.name} character={item} />
-              </NavLink>
-            ))}
-          </section>
+          {searchValue == 'search' ? (
+            <section className="cards">
+              {characterObject.map((item) => (
+                <NavLink key={item.name} to={`details/${item.name}`}>
+                  <CharacterCard key={item.name} character={item} />
+                </NavLink>
+              ))}
+            </section>
+          ) : (
+            <div>
+              <h3>Name: {data.name}</h3>
+              <p>ID: {data.id}</p>
+              <p>Base Experience: {data.base_experience}</p>
+              <p>Height: {data.height}</p>
+              <p>Weight: {data.weight}</p>
+            </div>
+          )}
         </div>
         <Outlet />
       </div>

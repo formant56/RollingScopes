@@ -15,4 +15,16 @@ export type Character = {
       };
     },
   ];
+  results: null;
+};
+
+export type EmptySearch = {
+  count: number;
+  next: string;
+  previous: null;
+  results: [
+    {
+      name: string;
+    },
+  ];
 };

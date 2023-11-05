@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 interface ChildComponentProps {
   onValueSet: (newValue: string) => void;
-  pageIncDec: (operation: 'increase' | 'decrease') => void;
+
   pageReset: () => void;
   onLimitSet: (resultsPP: number) => void;
   limit: number;
@@ -11,7 +11,6 @@ interface ChildComponentProps {
 
 const Search: React.FC<ChildComponentProps> = ({
   onValueSet,
-  pageIncDec,
   pageReset,
   onLimitSet,
   limit,
@@ -43,8 +42,7 @@ const Search: React.FC<ChildComponentProps> = ({
       />
 
       <button onClick={handleSubmit}>Search</button>
-      <button onClick={() => pageIncDec('increase')}>Next Page</button>
-      <button onClick={() => pageIncDec('decrease')}>Previous Page</button>
+
       <div>
         <label>Select Items Per Page:</label>
         <select value={limit} onChange={handlePageChange}>
