@@ -4,16 +4,37 @@ import { Character } from '../../resources/characterInterface';
 
 export default function ImageView() {
   const navigate = useNavigate();
-  const data = useLoaderData();
+  const data = useLoaderData() as Character;
   const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const modalOverlayRef = React.useRef<HTMLDivElement | null>(null);
 
-  function onDismiss() {
-    navigate(-1);
-  }
+  const onDismiss = React.useCallback(() => {
+    navigate('..');
+  }, [navigate]);
+
+  // Add an event listener to the modal overlay to handle clicks outside the modal
+  React.useEffect(() => {
+    function handleOverlayClick(event: MouseEvent) {
+      if (
+        modalOverlayRef.current &&
+        event.target instanceof Node &&
+        !modalOverlayRef.current.contains(event.target as Node)
+      ) {
+        // Click occurred outside the modal, so trigger the onDismiss function
+        onDismiss();
+      }
+    }
+
+    window.addEventListener('click', handleOverlayClick);
+
+    return () => {
+      window.removeEventListener('click', handleOverlayClick);
+    };
+  }, [onDismiss]);
 
   // CSS for the modal overlay
   const modalOverlayStyle = {
-    position: 'fixed',
+    // position: 'fixed',
     top: 0,
     left: 0,
     width: '100%',
@@ -37,26 +58,27 @@ export default function ImageView() {
   };
 
   return (
-    <div style={modalOverlayStyle}>
+    <div style={modalOverlayStyle} ref={modalOverlayRef}>
       <div style={modalContentStyle}>
-        <img src={data.image} alt={data.name} className="card__image" />
-        <div className="card__description">
-          <p>Name: {data.name}</p>
-          <p className="card__status">Status: {data.status}</p>
-          <p>Species: {data.species}</p>
-          <p>Gender: {data.gender}</p>
-          <button ref={buttonRef} onClick={onDismiss}>
-            Close
-          </button>
+        <h3>Name: {data.name}</h3>
+        <p>ID: {data.id}</p>
+        <p>Base Experience: {data.base_experience}</p>
+        <p>Height: {data.height}</p>
+        <p>Weight: {data.weight}</p>
+        <h3>Stats</h3>
+        <div>
+          {data.stats.map((stat, index) => {
+            return (
+              <p key={index}>
+                {stat.stat.name} : {stat.base_stat}
+              </p>
+            );
+          })}
         </div>
+        <button ref={buttonRef} onClick={onDismiss}>
+          Close
+        </button>
       </div>
     </div>
-    // <div>
-    //   <h1 id="label">{image.title}</h1>
-    //   <img width={400} height={400} src={image.src} alt="" />
-    //   <button ref={buttonRef} onClick={onDismiss}>
-    //     Close
-    //   </button>
-    // </div>
   );
 }

@@ -1,8 +1,8 @@
 import './App.css';
 import React, { useState } from 'react';
 import Search from './Components/SearchBar/Search2';
-import fetchPokemon2 from './Components/Fetch/FetchPokemon2';
-import fetchById from './Components/Fetch/FetchById';
+import fetchByName from './Components/Fetch/FetchByName';
+import fetchPokemons from './Components/Fetch/FetchPokemon';
 import Card2 from './Components/Lower/Card2';
 import ImageView from './Components/Lower/ImageView';
 
@@ -23,9 +23,14 @@ import {
 const ParentComponent: React.FC<object> = () => {
   const [searchValue, setSearchValue] = useState<string>('search');
   const [page, setPage] = React.useState<number>(1);
+  const [limit, setLimit] = React.useState<number>(20);
 
   const onValueSet = (newValue: string) => {
     setSearchValue(newValue.trim() === '' ? 'search' : newValue);
+  };
+
+  const onLimitSet = (resultsPP: number) => {
+    setLimit(resultsPP);
   };
 
   const pageIncDec = (operation: 'increase' | 'decrease') => {
@@ -45,6 +50,7 @@ const ParentComponent: React.FC<object> = () => {
   const pageReset = () => {
     setPage(1);
     console.log('page to 1');
+    console.log(limit);
   };
 
   const router = createBrowserRouter(
@@ -56,6 +62,8 @@ const ParentComponent: React.FC<object> = () => {
             onValueSet={onValueSet}
             pageIncDec={pageIncDec}
             pageReset={pageReset}
+            onLimitSet={onLimitSet}
+            limit={limit}
           />
         }
       >
@@ -64,17 +72,17 @@ const ParentComponent: React.FC<object> = () => {
           element={<Card2 searchValue={searchValue} page={page} />}
           loader={({ params }) => {
             if (params.search == 'search') {
-              return fetchPokemon2('', params.page);
+              return fetchPokemons(params.page, limit);
             } else {
-              return fetchPokemon2(params.search, params.page);
+              return fetchPokemons(params.search, params.page, limit);
             }
           }}
         >
           <Route
-            path="details/:id"
+            path="details/:name"
             element={<ImageView />}
             loader={({ params }) => {
-              return fetchById(params.id);
+              return fetchByName(params.name);
             }}
           ></Route>
         </Route>

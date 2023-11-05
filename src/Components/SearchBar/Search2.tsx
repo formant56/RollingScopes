@@ -5,12 +5,16 @@ interface ChildComponentProps {
   onValueSet: (newValue: string) => void;
   pageIncDec: (operation: 'increase' | 'decrease') => void;
   pageReset: () => void;
+  onLimitSet: (resultsPP: number) => void;
+  limit: number;
 }
 
 const Search: React.FC<ChildComponentProps> = ({
   onValueSet,
   pageIncDec,
   pageReset,
+  onLimitSet,
+  limit,
 }) => {
   const [tempvalue, setTempValue] = React.useState<string>(
     localStorage.getItem('searchResult') || ''
@@ -25,6 +29,10 @@ const Search: React.FC<ChildComponentProps> = ({
     onValueSet(tempvalue.toLowerCase().trimEnd());
     localStorage.setItem('searchResult', tempvalue.toLowerCase().trimEnd());
   };
+  const handlePageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    pageReset();
+    onLimitSet(parseInt(event.target.value, 10));
+  };
 
   return (
     <>
@@ -37,6 +45,14 @@ const Search: React.FC<ChildComponentProps> = ({
       <button onClick={handleSubmit}>Search</button>
       <button onClick={() => pageIncDec('increase')}>Next Page</button>
       <button onClick={() => pageIncDec('decrease')}>Previous Page</button>
+      <div>
+        <label>Select Items Per Page:</label>
+        <select value={limit} onChange={handlePageChange}>
+          <option value={20}>20</option>
+          <option value={30}>30</option>
+          <option value={40}>40</option>
+        </select>
+      </div>
       <Outlet />
     </>
   );

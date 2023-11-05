@@ -1,7 +1,4 @@
-export default async function fetchPokemon2(
-  userInput: string = '',
-  page: number
-) {
+export default async function fetchByName(userInput: string = '') {
   // if (typeof userInput === 'number') {
   //   page = userInput;
   // } else if (typeof userInput === 'string') {
@@ -12,9 +9,7 @@ export default async function fetchPokemon2(
   //   page = 1;
   // }
   const response = await fetch(
-    `https://rickandmortyapi.com/api/character/?page=${page}${
-      userInput ? `&name=${userInput}` : ''
-    }`
+    `https://pokeapi.co/api/v2/pokemon/${userInput}`
   );
   if (response.ok) {
     const data = await response.json();

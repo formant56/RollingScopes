@@ -33,3 +33,8 @@
   gridtemplatecolumns: 'repeat(auto-fit, minmax(200px, 1fr))';
   gap: '24px';
 }
+
+.split {
+  display: flex;
+  flex-direction: row;
+}

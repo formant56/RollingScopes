@@ -1,7 +1,7 @@
 import React from 'react';
 import { Character } from '../../resources/characterInterface';
 import CharacterCard from './CharacterCard';
-import { useLoaderData, useNavigate, Link, Outlet } from 'react-router-dom';
+import { useLoaderData, useNavigate, NavLink, Outlet } from 'react-router-dom';
 
 interface SearchProps {
   searchValue: string;
@@ -32,15 +32,17 @@ const Card2: React.FC<SearchProps> = ({ searchValue, page }) => {
     return <p>Waiting for correct search input...</p>;
   } else {
     return (
-      <div>
-        <p>{searchValue}</p>
-        <section className="cards">
-          {characterObject.map((item) => (
-            <Link key={item.id} to={`details/${item.id}`}>
-              <CharacterCard key={item.id} character={item} />
-            </Link>
-          ))}
-        </section>
+      <div className="split">
+        <div>
+          <p>{searchValue}</p>
+          <section className="cards">
+            {characterObject.map((item) => (
+              <NavLink key={item.name} to={`details/${item.name}`}>
+                <CharacterCard key={item.name} character={item} />
+              </NavLink>
+            ))}
+          </section>
+        </div>
         <Outlet />
       </div>
     );
