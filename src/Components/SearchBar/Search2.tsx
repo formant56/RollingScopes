@@ -44,7 +44,8 @@ const Search: React.FC<ChildComponentProps> = ({
       <button onClick={handleSubmit}>Search</button>
 
       <div>
-        <label>Select Items Per Page:</label>
+        <label>View Items Per Page:</label>
+        <br></br>
         <select value={limit} onChange={handlePageChange}>
           <option value={20}>20</option>
           <option value={30}>30</option>
