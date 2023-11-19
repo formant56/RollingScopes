@@ -5,14 +5,18 @@ import loadingReducer from '../components/loadingSlice';
 
 import giphyApi from './apiSlice';
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     searchkey: searchkeyReducer,
     limit: limitReducer,
-    loding: loadingReducer,
+    loading: loadingReducer,
 
     [giphyApi.reducerPath]: giphyApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(giphyApi.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export default store;
