@@ -9,9 +9,12 @@ export default function Pagination({
   limit,
   responseData,
 }: PaginationProps): JSX.Element {
-  const { pages: pageNumbers } = responseData.data || {
-    pages: { numbers: [], last: 0 },
-  };
+  const { pages: pageNumbers } =
+    responseData && responseData.data
+      ? responseData.data
+      : {
+          pages: { numbers: [], last: 0 },
+        };
   const router = useRouter();
   const [newLimit, setNewLimit] = useState(limit);
   const last = pageNumbers.last;

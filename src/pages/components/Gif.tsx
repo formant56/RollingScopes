@@ -21,6 +21,7 @@ export default function Gif({ gif, isDetails }: GifProps): JSX.Element {
         autoPlay
         loop
         muted
+        data-testid="item-content"
       ></video>
     </>
   );

@@ -55,34 +55,6 @@ export const getServerSideProps: GetServerSideProps =
     const responseData = state.giphyApi.queries[queryKey];
 
     return { props: { query, page, limit, responseData } };
-
-    //IsLoading and isError
-
-    // // Dispatch the searchGifs action
-    // const resultAction = await store.dispatch(
-    //   searchGifs.initiate({ query, page, limit })
-    // );
-
-    // // Extract the query state from the Redux store
-    // const state = store.getState();
-    // const queryKey = `searchGifs({"limit":"${limit}","page":"${page}","query":"${query}"})`;
-    // const queryState = state.giphyApi.queries[queryKey];
-
-    // // Extract isLoading and isError
-    // const isLoading = queryState?.isLoading ?? false;
-    // const isError = queryState?.isError ?? false;
-
-    // // Pass the extracted values as props
-    // return {
-    //   props: {
-    //     query,
-    //     page,
-    //     limit,
-    //     responseData: queryState?.data,
-    //     isLoading,
-    //     isError,
-    //   },
-    // };
   });
 
 export default App;

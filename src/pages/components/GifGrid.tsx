@@ -9,7 +9,7 @@ interface GifLayoutProps {
 const GifLayout = ({ gifs, isDetails }: GifLayoutProps) => {
   const classes: string = 'api-items' + (isDetails ? ' half' : '');
   return (
-    <section className={classes}>
+    <section className={classes} data-testid="gif-section">
       {gifs.length ? (
         gifs.map((item) => (
           <Gif gif={item} key={item.id} isDetails={isDetails} />

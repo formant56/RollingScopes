@@ -44,11 +44,13 @@ const giphyApi = createApi({
         if (hasPagination(response)) {
           const total: number = response.pagination.total_count;
           const maxAPIOffset: number = 5000;
+
+          const arguement = +arg.page;
           pages = getPages(
             Math.ceil(
               (total > maxAPIOffset ? maxAPIOffset : total) / arg.limit
             ),
-            arg.page
+            arguement
           );
         }
 
