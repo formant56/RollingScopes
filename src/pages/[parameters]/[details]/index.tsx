@@ -5,12 +5,14 @@ import {
   getOneGif,
   getRunningQueriesThunk,
 } from '../../utils/apiSlice';
-import GifLayout from '../../components/Layout/GifLayout';
+import { GetServerSideProps } from 'next';
+import GifLayout from '../../components/GifGrid';
 import Layout from '../../components/Layout/Layout';
 import DetailedItem from '@/pages/components/DetailedItem';
 import { useRouter } from 'next/router';
+import { DetailedViewProps } from '../../utils/types';
 
-const DetailedView: React.FC = ({
+const DetailedView: React.FC<DetailedViewProps> = ({
   query,
   page,
   limit,
@@ -37,11 +39,14 @@ const DetailedView: React.FC = ({
     </Layout>
   );
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
+interface Params {
+  parameters: string;
+  details: string;
+}
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
     const { params } = context;
-    const { parameters, details } = params;
+    const { parameters, details } = params as Params;
 
     const paramsArray = parameters.split('-');
     let query = '',
@@ -57,6 +62,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       }
     });
     store.dispatch(getOneGif.initiate(details));
+
     store.dispatch(searchGifs.initiate({ query, page, limit }));
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
     const state = store.getState();
@@ -64,10 +70,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const responseData = state.giphyApi.queries[queryKey];
 
     const oneGif = state.giphyApi.queries[`getOneGif("${details}")`];
-    console.log(oneGif);
 
     return { props: { query, page, limit, responseData, oneGif } };
-  }
-);
+  });
 
 export default DetailedView;

@@ -5,7 +5,6 @@ const HomePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect to the dynamic page with default query parameters
     router.push('/query=-page=1-limit=10');
   }, [router]);
 

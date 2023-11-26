@@ -2,16 +2,17 @@ import React from 'react';
 import { wrapper } from '../utils/store';
 import { searchGifs, getRunningQueriesThunk } from '../utils/apiSlice';
 import Gif from '../components/Gif';
-import GifLayout from '../components/Layout/GifLayout';
+import GifLayout from '../components/GifGrid';
 import Layout from '../components/Layout/Layout';
 import { ParametersProps } from '../utils/types';
+import { GetServerSideProps, NextPage } from 'next';
 
-const App: React.FC = ({
+const App: React.FC<ParametersProps> = ({
   query,
   page,
   limit,
   responseData,
-}: ParametersProps) => {
+}) => {
   const { data: gifs } = responseData.data || {
     data: [],
     pages: { numbers: [], last: 0 },
@@ -23,18 +24,21 @@ const App: React.FC = ({
     </Layout>
   );
 };
+interface Params {
+  parameters: string;
+}
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
     const { params } = context;
-    const { parameters: paramsString } = params;
+    const { parameters: paramsString } = params as Params;
 
     const paramsArray = paramsString.split('-');
 
     let query = '',
       page = '',
       limit = '';
-    paramsArray.forEach((param) => {
+    paramsArray.forEach((param: string) => {
       if (param.startsWith('query=')) {
         query = param.split('query=')[1];
       } else if (param.startsWith('page=')) {
@@ -79,7 +83,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     //     isError,
     //   },
     // };
-  }
-);
+  });
 
 export default App;

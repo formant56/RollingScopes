@@ -7,6 +7,12 @@ export interface DetailedGif extends IGif {
   user: User;
   import_datetime: string;
 }
+export interface DetailedItemProps {
+  oneGif: {
+    data: { data: DetailedGif };
+  };
+}
+
 interface User {
   display_name: string;
   description: string;
@@ -27,13 +33,7 @@ export interface PaginationProps {
   page: number;
   limit: number;
   responseData: {
-    data: {
-      data: [];
-      pages: {
-        numbers: [];
-        last: number;
-      };
-    };
+    data: BackData;
   };
 }
 
@@ -64,6 +64,14 @@ export interface BackData {
 }
 
 export interface ParametersProps {
+  query: string;
+  page: number;
+  limit: number;
+  responseData: {
+    data: BackData;
+  };
+}
+export interface DetailedViewProps extends DetailedItemProps {
   query: string;
   page: number;
   limit: number;

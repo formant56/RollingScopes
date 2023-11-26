@@ -1,6 +1,12 @@
-import Gif from '../Gif';
+import Gif from './Gif';
+import { IGif } from '../utils/types';
 
-const GifLayout = ({ gifs, isDetails }) => {
+interface GifLayoutProps {
+  gifs: IGif[];
+  isDetails: boolean;
+}
+
+const GifLayout = ({ gifs, isDetails }: GifLayoutProps) => {
   const classes: string = 'api-items' + (isDetails ? ' half' : '');
   return (
     <section className={classes}>
