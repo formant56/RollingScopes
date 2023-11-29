@@ -14,6 +14,14 @@ const UncontrolledForm: React.FC = () => {
         Name:
         <input type="text" ref={inputRef} />
       </label>
+      <label>
+        age:
+        <input type="number" ref={inputRef} />
+      </label>
+      <label>
+        email:
+        <input type="text" ref={inputRef} />
+      </label>
       <button type="submit">Submit</button>
     </form>
   );
