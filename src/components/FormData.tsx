@@ -9,6 +9,7 @@ interface FormDataProps {
     password: string;
     country: string;
     img: string;
+    atc: boolean;
   };
 }
 
@@ -34,6 +35,9 @@ const FormData: React.FC<FormDataProps> = ({ item }) => {
         </p>
         <p>
           <span>Password:</span> {item.password}
+        </p>
+        <p>
+          <span>Accepted Terms & Conditions</span> {item.atc}
         </p>
       </div>
     </div>

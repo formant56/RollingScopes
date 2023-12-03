@@ -24,7 +24,7 @@ const App: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <div>
+      <div className="completedForms">
         <div>
           <label>Uncontrolled Data</label>
           <FormData item={uncontrolledData} />

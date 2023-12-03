@@ -9,11 +9,12 @@ const uncontrolledFormSlice = createSlice({
     gender: '',
     password: '',
     country: '',
+    atc: '',
     img: '',
   },
   reducers: {
     setFormValues(state, action) {
-      const { name, age, email, password, gender, country, img } =
+      const { name, age, email, password, gender, country, atc, img } =
         action.payload;
 
       if (name !== undefined) state.name = name;
@@ -22,6 +23,7 @@ const uncontrolledFormSlice = createSlice({
       if (gender !== undefined) state.gender = gender;
       if (password !== undefined) state.password = password;
       if (img !== undefined) state.img = img;
+      if (atc !== undefined) state.atc = atc;
       if (country !== undefined) state.country = country;
     },
   },
