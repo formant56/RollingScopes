@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { schema, FormData } from './utils/schema';
 import { useSelector } from 'react-redux';
 import type { RootState } from './store';
+import { evaluatePasswordStrength } from './utils/passwordStrength';
 
 const ControlledForm: React.FC = () => {
   const {
@@ -24,6 +25,7 @@ const ControlledForm: React.FC = () => {
   const navigate = useNavigate();
   const suggestions = useSelector((state: RootState) => state.countries);
   const [filteredSuggestions, setFilteredSuggestions] = React.useState([]);
+  const [passwordStrength, setPasswordStrength] = React.useState('');
 
   const countryValue = watch('country');
 
@@ -42,6 +44,15 @@ const ControlledForm: React.FC = () => {
     setValue('country', suggestion);
     setFilteredSuggestions([]);
   };
+
+  React.useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      if (name === 'password') {
+        setPasswordStrength(evaluatePasswordStrength(value.password || ''));
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const toBase64 = (file: File) =>
     new Promise((resolve, reject) => {
@@ -105,6 +116,7 @@ const ControlledForm: React.FC = () => {
           className={styles.input}
           {...register('password')}
         />
+        <div>Password Strength: {passwordStrength}</div>
         <div className={styles.error}>{errors.password?.message}</div>
       </div>
 
