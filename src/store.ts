@@ -1,8 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/counterSlice'
+import { configureStore } from '@reduxjs/toolkit';
+import uncontrolledStateReducer from './utils/uncontrolledFormSlice';
+import controlledStateReducer from './utils/controlledFormSlice';
+import countriesReducer from './utils/countriesSlice';
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
-    counter: counterReducer
-  }
-})
+    uncontrolledState: uncontrolledStateReducer,
+    controlledState: controlledStateReducer,
+    countries: countriesReducer,
+  },
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

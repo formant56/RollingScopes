@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const controlledFormSlice = createSlice({
-  name: 'controlledState',
+const uncontrolledFormSlice = createSlice({
+  name: 'uncontrolledState',
   initialState: {
     name: '',
     age: 0,
@@ -12,7 +12,7 @@ const controlledFormSlice = createSlice({
     img: '',
   },
   reducers: {
-    setControlledFormValues(state, action) {
+    setFormValues(state, action) {
       const { name, age, email, password, gender, country, img } =
         action.payload;
 
@@ -27,6 +27,6 @@ const controlledFormSlice = createSlice({
   },
 });
 
-export const { setControlledFormValues } = controlledFormSlice.actions;
+export const { setFormValues } = uncontrolledFormSlice.actions;
 
-export default controlledFormSlice.reducer;
+export default uncontrolledFormSlice.reducer;

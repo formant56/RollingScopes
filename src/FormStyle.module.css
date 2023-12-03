@@ -1,0 +1,29 @@
+/* UncontrolledForm.module.css */
+.formContainer {
+  max-width: 300px;
+  margin: auto;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+}
+
+.error {
+  color: red;
+  min-height: 20px;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 10px;
+}
